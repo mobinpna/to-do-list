@@ -73,6 +73,7 @@ function newTask(task, project = inbox){
         newProject(project);
     }
     project.addTask(task);
+    task.project = project.title;
 }
 
 function isNew(newProject){
@@ -87,6 +88,44 @@ function newProject(project) {
     projects.push(project)
 }
 
-newTask(Task("shave","",0,"hygene", "2025-10-22"),Project("hiii"));
+function toggleList(task) {
+    if(task.done){
+        projects.forEach(proj => {
+            if(proj.title == task.project){
+                proj.taskList.forEach(instance => {
+                    if(instance === task){
+                        proj.taskList = proj.taskList.filter(item => item !== instance);
+                        proj.doneTaskList.push(instance)
+                    }
+                })
+            }
+        })
+    }
+    if(task.done === false){
+        projects.forEach(proj => {
+            if(proj.title == task.project){
+                proj.taskList.forEach(instance => {
+                    if(instance === task){
+                        proj.taskList = proj.doneTaskList.filter(item => item !== instance);
+                        proj.taskList.push(instance)
+                    }
+                })
+            }
+        })
+    }
+}
 
-console.log(projects[1])
+newTask(Task("shave","",0,"hygene", "2025-10-22"),Project("hiii"));
+newTask(Task("trim","",0,"hygene", "2025-10-22"),Project("hiii"));
+
+
+// console.log(projects[1].taskList[0].done);
+projects[1].taskList[0].toggleDone();
+// console.log(projects[1].taskList[0].done);
+toggleList(projects[2].taskList[0]);
+toggleList(projects[2].taskList[0]);
+
+console.log(projects)
+
+
+
