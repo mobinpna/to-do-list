@@ -1,6 +1,15 @@
 import "./style.css";
+import "./dueDate.js";
+import { isBefore } from "date-fns";
 
-const projects = [];
+
+const projectProto =  {
+    
+    addTask(task) {
+        this.taskList.push(task);
+    },
+    
+}
 
 function Project(title, description = ""){
     const proj = Object.create(projectProto);
@@ -8,47 +17,76 @@ function Project(title, description = ""){
     proj.title = title;
     proj.description = description;
     proj.taskList=[];
+    proj.doneTaskList=[];
     
     return proj;
 }
 
-const projectProto =  {
 
-    addTask(task) {
-        this.taskList.push(task);
-    },
-
-}
-
+const projects = [];
 const inbox = Project("Inbox");
+projects.push(inbox);
 
-function Task (title, description = "", dueDate = null, priority = 0, tag = 0, note = 0) {
-    const toDo = Object.create(taskProto);
-
-    toDo.title= title;
-    toDo.done = false;
-    toDo.description = description;
-    toDo.dueDate = dueDate;
-    toDo.priority = priority;
-    toDo.tag = tag;
-    toDo.note = note;
-
-    return toDo;
-}
 
 const taskProto = {
-
+    
     toggleDone() {
         this.done = !this.done;
     },
 
+    isOverDue (dueDate) {
+        this.overDue = isBefore(new Date(dueDate), new Date());
+    }
+    
+}
+
+function Task (title, description = "", priority = 0, tag = null, dueDate = null) {
+    const toDo = Object.create(taskProto);
+    
+    toDo.project;
+    toDo.title = title;
+    toDo.done = false;
+    if(description)toDo.description = description;
+    if(priority)toDo.priority = priority;
+    if(tag)toDo.tag = pushUnique(tag);
+    if(dueDate)toDo.dueDate = dueDate;
+    toDo.isOverDue(dueDate);
+    
+    return toDo;
 }
 
 
+const tags = [];
+function pushUnique (newTag){
+    for (let i = 0; i < tags.length; i++) {
+        const element = tags[i];
+        if(element == newTag){
+            return newTag;
+        }
+    }
+    tags.push(newTag);
+    return newTag;
+}
+
 function newTask(task, project = inbox){
+    if(isNew(project)){
+        newProject(project);
+    }
     project.addTask(task);
 }
 
-newTask(Task("wash ass"));
+function isNew(newProject){
+    let result = true;
+    projects.forEach( (proj) => {
+        if(proj===newProject)result = false;
+    })
+    return result
+}
 
-console.log(inbox)
+function newProject(project) {
+    projects.push(project)
+}
+
+newTask(Task("shave","",0,"hygene", "2025-10-22"),Project("hiii"));
+
+console.log(projects[1])
