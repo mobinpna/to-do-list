@@ -1,24 +1,26 @@
 import "./style.css";
 import "./dueDate.js";
-import { isBefore } from "date-fns";
+import { isBefore, isThisHour } from "date-fns";
+import { is } from "date-fns/locale";
 
 
 const projectProto =  {
     
-    addTask(task) {
+    pushTask(task) {
         this.taskList.push(task);
     },
     
 }
 
 function Project(title, description = ""){
+    
     const proj = Object.create(projectProto);
     
     proj.title = title;
     proj.description = description;
     proj.taskList=[];
     proj.doneTaskList=[];
-    
+
     return proj;
 }
 
@@ -32,6 +34,7 @@ const taskProto = {
     
     toggleDone() {
         this.done = !this.done;
+        toggleList(this);
     },
 
     isOverDue (dueDate) {
@@ -40,10 +43,10 @@ const taskProto = {
     
 }
 
-function Task (title, description = "", priority = 0, tag = null, dueDate = null) {
+function Task (title, project, description = "", priority = 0, tag = null, dueDate = null) {
     const toDo = Object.create(taskProto);
     
-    toDo.project;
+    toDo.project = project;
     toDo.title = title;
     toDo.done = false;
     if(description)toDo.description = description;
@@ -68,18 +71,22 @@ function pushUnique (newTag){
     return newTag;
 }
 
-function newTask(task, project = inbox){
-    if(isNew(project)){
-        newProject(project);
+function addTask(projTitle = "inbox", projDescription = "",taskTitle, taskDescription = "",priority = 0, tag = null, dueDate = null){
+    const task = Task(taskTitle, projTitle, taskDescription, priority, tag, dueDate)
+    if(!isNew(projTitle)){
+        const index =projects.findIndex(item => item.title === projTitle);
+        projects[index].taskList.push(task)
+    }else{
+        const project = Project(projTitle, projDescription);
+        projects.push(project);
+        project.taskList.push(task);
     }
-    project.addTask(task);
-    task.project = project.title;
 }
 
-function isNew(newProject){
+function isNew(title){
     let result = true;
     projects.forEach( (proj) => {
-        if(proj===newProject)result = false;
+        if(proj.title===title)result = false;
     })
     return result
 }
@@ -115,17 +122,9 @@ function toggleList(task) {
     }
 }
 
-newTask(Task("shave","",0,"hygene", "2025-10-22"),Project("hiii"));
-newTask(Task("trim","",0,"hygene", "2025-10-22"),Project("hiii"));
+addTask("Inbox", "", "shave","",0,"hygene", "2025-10-22")
+addTask("hiii", "", "trime","",0,"hygene", "2025-10-22")
 
-
-// console.log(projects[1].taskList[0].done);
-projects[1].taskList[0].toggleDone();
-// console.log(projects[1].taskList[0].done);
-toggleList(projects[2].taskList[0]);
-toggleList(projects[2].taskList[0]);
+projects[0].taskList[0].toggleDone()
 
 console.log(projects)
-
-
-
