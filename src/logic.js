@@ -68,13 +68,16 @@ const taskProto = {
             const proj = projects[index];
             if(proj.title == this.project) return index;
         }        
+    },
+
+    getTaskId () {
+        return this.id;
     }
 }
 
 function Task (title, project, description = "", priority = 0, tag = null, dueDate = null) {
     const toDo = Object.create(taskProto);
     
-
     toDo.title = title;
     toDo.id = Math.floor(Date.now() + Math.random());
     toDo.done = false;
