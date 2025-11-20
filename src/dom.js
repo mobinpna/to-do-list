@@ -10,7 +10,6 @@ function render(projects, currentProj = projects[0]) {
   clearTaskSection();
   clearProjectSection();
   renderTasks(currentProj, currentProj.taskList, taskListContainer, "task");
-  renderTasks(currentProj, currentProj.doneTaskList, taskListContainer, "task");
   renderProjects(projects, projectListContainer, "project");
 }
 
@@ -45,7 +44,7 @@ function renderTasks(project, list, container) {
 function taskListeners(div, task) {
   div.addEventListener("click", (e) => {
     task.toggleDone();
-    e.target.dataset.done = e.target.dataset.done ? "false" : "true";
+    // e.target.dataset.done = task.done;
     render(projects, projects[task.getProjIndex()]);
   });
 }
