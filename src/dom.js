@@ -49,13 +49,11 @@ function taskListeners(div, task, list) {
 }
 
 function clearTaskSection() {
-  const taskListContainer = document.querySelector(".task-list");
-  taskListContainer.textContent = "";
+  document.querySelectorAll(".task").forEach(e => e.remove());
 }
 
 function clearProjectSection() {
-  const projListContainer = document.querySelector(".project-list");
-  projListContainer.textContent = "";
+  document.querySelectorAll(".project").forEach((e) => e.remove());
 }
 
 function renderProjects(projects, container) {
