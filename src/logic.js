@@ -39,14 +39,14 @@ const taskProto = {
       if (proj.title === this.project) project = proj;
     });
 
-      for (let i = 0; i < project.taskList.length; i++) {
-        const element = project.taskList[i];
-        if (element == this) index = i;
-      }
+    for (let i = 0; i < project.taskList.length; i++) {
+      const element = project.taskList[i];
+      if (element == this) index = i;
+    }
 
     return index;
   },
-  
+
   getProjIndex() {
     for (let index = 0; index < projects.length; index++) {
       const proj = projects[index];
@@ -121,6 +121,11 @@ function addTask(
   }
 }
 
+function toggleTask(task, list) {
+  task.toggleDone();
+  list.sort((a, b) => Number(a.done) - Number(b.done));
+}
+
 function isNew(title) {
   let result = true;
   projects.forEach((proj) => {
@@ -133,4 +138,4 @@ function newProject(project) {
   projects.push(project);
 }
 
-export { addTask, projects };
+export { addTask, toggleTask, projects };

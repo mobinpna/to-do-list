@@ -1,4 +1,4 @@
-import { projects } from "./logic.js";
+import { addTask, toggleTask, projects } from "./logic.js";
 
 function domInit(projects) {
   render(projects);
@@ -37,14 +37,13 @@ function renderTasks(project, list, container) {
     newDiv.dataset.done = list[task.getTaskIndex()].done;
     container.appendChild(newDiv);
 
-    taskListeners(newDiv, task);
+    taskListeners(newDiv, task, list);
   });
 }
 
-function taskListeners(div, task) {
+function taskListeners(div, task, list) {
   div.addEventListener("click", (e) => {
-    task.toggleDone();
-    // e.target.dataset.done = task.done;
+    toggleTask(task, list);
     render(projects, projects[task.getProjIndex()]);
   });
 }
