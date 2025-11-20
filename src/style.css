@@ -1,57 +1,56 @@
 :root {
-    --one : #021526;
-    --two : #03346E;
-    --three : #6EACDA;
-    --four: #E2E2B6;
+  --one: #021526;
+  --two: #03346e;
+  --three: #6eacda;
+  --four: #e2e2b6;
 }
 
 body {
-    background: var(--one);
-    color: var(--four);
+  background: var(--one);
+  color: var(--four);
 }
 
 .container {
-    height: 100vh;
-    display: grid;
-    grid-auto-flow: row;
-    grid-template-columns: minmax(150px, 1fr) 4fr;
-    gap: 40px;
+  height: 100vh;
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: minmax(150px, 1fr) 4fr;
+  gap: 40px;
 }
 
 .project-list {
-    grid-area: 1 / 1 / 2 /2;
-    display: grid;
-    grid-auto-flow: row;
-    grid-template-rows: repeat(auto-fill, 80px);
-    gap: 20px;
-    padding-left: 20px;
+  grid-area: 1 / 1 / 2 /2;
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-rows: repeat(auto-fill, 80px);
+  gap: 20px;
+  padding-left: 20px;
 }
 
 .project {
-    align-content: center;
-    padding: 15px;
-    cursor: pointer;
-    border-bottom: 2px solid var(--two);
-
+  align-content: center;
+  padding: 15px;
+  cursor: pointer;
+  border-bottom: 2px solid var(--two);
 }
 
 .task-list {
-    grid-area: 1 / 2 / 2 / 3;
-    display: grid;
-    grid-auto-flow: row;
-    grid-template-rows: repeat(auto-fill, 60px);
-    gap: 20px;
-    background-color: var(--three);
-    color: var(--one);
+  grid-area: 1 / 2 / 2 / 3;
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-rows: repeat(auto-fill, 60px);
+  gap: 20px;
+  background-color: var(--three);
+  color: var(--one);
 }
 
 .task {
-    align-content: center;
-    padding: 10px;
-    border-bottom: 2px solid var(--two);
-    cursor: pointer;
+  align-content: center;
+  padding: 10px;
+  border-bottom: 2px solid var(--two);
+  cursor: pointer;
 }
 
 [data-done="true"] {
-    background-color: bisque;
+  background-color: gray;
 }
