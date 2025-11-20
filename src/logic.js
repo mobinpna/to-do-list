@@ -1,8 +1,8 @@
 import { isBefore } from "date-fns";
 
 const projectProto = {
-  pushTask(task) {
-    this.taskList.push(task);
+  newTask(task) {
+    this.taskList.unshift(task);
   },
   getIndex() {
     const projIndex = projects.findIndex((proj) => proj === this);
@@ -113,7 +113,7 @@ function addTask(
   );
   if (!isNew(projTitle)) {
     const index = projects.findIndex((item) => item.title === projTitle);
-    projects[index].taskList.push(task);
+    projects[index].newTask(task);
   } else {
     const project = Project(projTitle, projDescription);
     newProject(project);
