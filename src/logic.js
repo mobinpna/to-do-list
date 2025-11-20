@@ -111,13 +111,13 @@ function addTask(
     tag,
     dueDate
   );
-  if (!isNew(projTitle)) {
+  if (isNew(projTitle)) {
+    const project = Project(projTitle, projDescription);
+    project.newTask(task);
+    newProject(project);
+  } else {
     const index = projects.findIndex((item) => item.title === projTitle);
     projects[index].newTask(task);
-  } else {
-    const project = Project(projTitle, projDescription);
-    newProject(project);
-    project.taskList.push(task);
   }
 }
 
