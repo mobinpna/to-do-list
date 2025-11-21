@@ -1,4 +1,5 @@
 import { isBefore } from "date-fns";
+import { updateStorage, projects } from "./storage.js";
 
 const projectProto = {
   newTask(task) {
@@ -19,17 +20,15 @@ function Project(title, description = "") {
   return proj;
 }
 
-const projects = [];
-const inbox = Project("Inbox");
-projects.push(inbox);
-
 const taskProto = {
   toggleDone() {
     this.done = !this.done;
   },
 
   isOverDue(dueDate) {
-    this.overDue = isBefore(new Date(dueDate), new Date());
+    if (dueDate) {
+      this.overDue = isBefore(new Date(dueDate), new Date());
+    }
   },
 
   getTaskIndex() {
@@ -69,15 +68,15 @@ function Task(
 ) {
   const toDo = Object.create(taskProto);
 
-  toDo.title = title;
-  toDo.id = Math.floor(Date.now() + Math.random());
   toDo.done = false;
+  toDo.id = Math.floor(Date.now() + Math.random());
+  toDo.title = title;
+  toDo.project = project;
   if (description) toDo.description = description;
   if (priority) toDo.priority = priority;
   if (tag) toDo.tag = pushUnique(tag);
   if (dueDate) toDo.dueDate = dueDate;
   toDo.isOverDue(dueDate);
-  toDo.project = project;
 
   return toDo;
 }
@@ -95,9 +94,9 @@ function pushUnique(newTag) {
 }
 
 function addTask(
-  projTitle = "inbox",
-  projDescription = "",
   taskTitle,
+  projTitle = "Inbox",
+  projDescription = "",
   taskDescription = "",
   priority = 0,
   tag = null,
@@ -119,11 +118,18 @@ function addTask(
     const index = projects.findIndex((item) => item.title === projTitle);
     projects[index].newTask(task);
   }
+  updateStorage();
+}
+
+function removeTask(projIndex, taskIndex){ 
+  projects[projIndex].taskList.splice(taskIndex,1);
+  updateStorage();
 }
 
 function toggleTask(task, list) {
   task.toggleDone();
   list.sort((a, b) => Number(a.done) - Number(b.done));
+  updateStorage();
 }
 
 function isNew(title) {
@@ -134,8 +140,16 @@ function isNew(title) {
   return result;
 }
 
-function newProject(project) {
-  projects.push(project);
+function newProject(title) {
+  projects.push(Project(title));
+  updateStorage();
 }
 
-export { addTask, toggleTask, projects };
+function removeProject(projIndex){
+  projects.splice(projIndex, 1);
+  updateStorage();
+}
+
+
+export { Project, Task};
+export { newProject, removeProject, addTask, removeTask, toggleTask};

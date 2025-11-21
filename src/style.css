@@ -54,3 +54,9 @@ body {
 [data-done="true"] {
   background-color: gray;
 }
+
+.del-btn {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+}
