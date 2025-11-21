@@ -25,14 +25,12 @@ function checkStorage() {
 }
 
 function reviveObject(strObj) {
-
   try {
-    
     let revivedObj = strObj.map((proj) => {
       let revivedProj = Project(proj.title, proj.description);
       for (let index = 0; index < proj.taskList.length; index++) {
         let task = proj.taskList[index];
-  
+
         revivedProj.taskList.push(
           Task(
             task.title,
@@ -48,10 +46,9 @@ function reviveObject(strObj) {
     });
     return revivedObj;
   } catch (e) {
-      projects = [];
-      newProject("Inbox");
+    projects = [];
+    newProject("Inbox");
   }
-
 }
 
 function updateStorage() {
@@ -59,5 +56,3 @@ function updateStorage() {
 }
 
 export { checkStorage, projects, updateStorage };
-
-

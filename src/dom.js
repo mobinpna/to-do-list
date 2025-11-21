@@ -86,7 +86,7 @@ function renderProjects(projects, container) {
     const index = projects.findIndex((project) => project === proj);
     title.dataset.index = index;
     title.textContent = proj.title;
-    
+
     const delBtn = Object.assign(document.createElement("button"), {
       className: "del-btn",
     });
